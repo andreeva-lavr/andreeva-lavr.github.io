@@ -1,0 +1,554 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+ <title> Прилипалы 4 </title> 
+<style>
+body {
+    background: url(image/fon.png) no-repeat;
+	width:1000px; 
+	height:1756px;
+	overflow: auto; /* полоса прокрутки */
+}
+
+.Bl2 { /* agent - фишки игрока */
+width:50px; 
+height:50px;
+top:310px;
+left:580px;
+//border-radius: 50px;		
+//border: 5px solid #ffffff;
+//background:#ee4900;
+cursor:move;
+z-index: 5;
+position: relative;	
+}
+.Bl3 { /* agent - фишка комп-а */
+top:270px;
+left:530px;
+position: absolute;
+z-index: -1;	
+}
+.tdOn { /* Видимые фишки Таблица1.js  */
+visibility: visible;/* on- visible  of-hidden */
+width:50px; 
+height:50px;
+font-weight: bold;
+text-align: center;
+font-size: 90%;
+line-height:50px;
+color: #ffffff;		
+border-radius:50%;
+border:4px solid #ffffff;
+background:#ee4900;
+cursor: pointer;
+}
+.tdOn1 { /* Видимые фишки- Условия- Таблица1.js  */
+visibility: visible;/* on- visible  of-hidden */
+width:50px; 
+height:50px;
+font-weight: bold;
+text-align: center;
+font-size: 90%;
+line-height:50px;
+color: #FCF81E;		
+border-radius:50%;
+border:4px solid #ffffff;
+background:#BA3900;
+cursor: pointer;
+}
+.tdOff { /* Невидимые фишки Таблица1.js  */
+visibility: hidden;/* on- visible  of-hidden */
+width:50px;
+height:50px;
+}
+.Pole { /* Таблица1.js table class='Pole' */
+width:100%; 
+height:100%;
+top:30px;
+left:0px;
+position: absolute;
+z-index: -1;
+}
+.instruction { /* Таблица2.js  */
+width:800px; 
+height:400px;
+top:120px; 
+left:200px; 
+padding: 20px; /* Поля вокруг текста */
+position: fixed;
+z-index:3;
+}
+.instruction2 { /* Таблица3.js  */
+width:500px; 
+height:250px;
+top:140px; 
+left:90px; 
+padding: 3px;
+position: absolute;
+cursor: pointer;
+//z-index:1;
+}
+.Sp { /* Таблица3.js img class='Sp' */
+width:50px; 
+height:50px;
+padding: 5px;
+border-radius: 50px;	
+cursor: pointer;
+}
+/*Вращающееся окно */
+.flip-container {
+-webkit-perspective: 1000;
+-moz-perspective: 1000;
+-ms-perspective: 1000;
+perspective: 1000;
+-ms-transform: perspective(1000px);
+-moz-transform: perspective(1000px);
+-moz-transform-style: preserve-3d; 
+-ms-transform-style: preserve-3d; 
+border-radius:50%;
+border: 2px double #ccc;
+}
+.flip-container:hover .back, .flip-container.hover .back {
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+}
+.flip-container:hover .front, .flip-container.hover .front {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+.flip-container, .front, .back {
+width:200px;
+height:200px;
+}
+.front, .back {
+-webkit-backface-visibility: hidden;
+-moz-backface-visibility: hidden;
+-ms-backface-visibility: hidden;
+backface-visibility: hidden;
+-webkit-transition: 0.6s;
+-webkit-transform-style: preserve-3d;
+-webkit-transform: rotateY(0deg);
+-moz-transition: 0.6s;
+-moz-transform-style: preserve-3d;
+-moz-transform: rotateY(0deg);
+-o-transition: 0.6s;
+-o-transform-style: preserve-3d;
+-o-transform: rotateY(0deg);
+-ms-transition: 0.6s;
+-ms-transform-style: preserve-3d;
+-ms-transform: rotateY(0deg);
+transition: 0.6s;
+transform-style: preserve-3d;
+transform: rotateY(0deg);
+position: absolute;
+ top: 0px;
+ left:0px;
+}
+.front {
+-webkit-transform: rotateY(0deg);
+-ms-transform: rotateY(0deg);
+font-weight: bold;
+text-align: center;
+font-size: 90%;
+line-height:50px;
+color: #000;
+border-radius:50%;
+border:2px ridge #ccc;
+background: #ADE6CA; 
+z-index: 2;
+opacity:0.80;
+}
+.back {
+background:#A2E6DA;
+-webkit-transform: rotateY(-180deg);
+-moz-transform: rotateY(-180deg);
+-o-transform: rotateY(-180deg);
+-ms-transform: rotateY(-180deg);
+transform: rotateY(-180deg);
+font-weight: bold;
+text-align: center;
+font-size: 90%;
+line-height:50px;
+color: #000;
+border-radius:50%;
+border: 3px double #ccc;
+/* Прозрачность */
+opacity:0.50;
+}
+/* Вращающееся окно */
+.prilipaly{
+top:250px;
+left:860px;
+position: absolute;
+text-align: center;
+/*border: 1px solid #cccccc;*/
+cursor: pointer;
+}
+
+#pt2{display: none;}
+#pt3{display: none;}
+#pt4{display: none;}
+#pt5{display: none;}
+#pt6{display: none;}
+#pt7{display: none;}
+#pt8{display: none;}
+#pt9{display: none;}
+</style>
+<head> </head>
+<body style="-webkit-user-select: none;" onload="unit('block1');return false;">
+
+<img style="z-index: -1; width:1024px; height:1730px; top:-10px; left:-15px; position: absolute;" src="image/Дорожка.png" title="Дорожка">
+<img style="z-index: -1; top:100px; left:790px; position: absolute;" src="image/Растения.gif" title="Растения" >
+<!-- Пузырьки -->
+<a href='#'  style="z-index: 2; top:340px; left:530px; position: absolute;" >Старт
+<img style="z-index: 2;top:-20px; left:-5px; border-radius: 50px; position: absolute;" src="image/пуз_4.png" title="Старт" onclick="Open('pt5');Open('pt6');"></a>
+<a href='#'  style="z-index:-2; top:185px; left:300px; position: absolute;" >Финиш<img style="top:-25px; left:-21px; position: absolute;" src="image/Финиш.gif" title="Финиш" ></a>
+<a href='#'  style="z-index: 2; top:168px; left:596px; position: absolute;" ><h2> 1 </h2>
+<img style="top:5px; left:-25px; position: absolute;" src="image/пуз_3.png" title="8" ></a>
+<a href='#'  style="z-index: 2; top:70px; left:650px; position: absolute;" ><h2> 2 </h2>
+<img style="top:5px; left:-25px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:10px; left:710px; position: absolute;" ><h2> Д </h2>
+<img style="top:5px; left:-18px; position: absolute;" src="image/пуз_1.png" title="2" ></a>
+<a href='#'  style="z-index: 2; top:90px; left:800px; position: absolute;" ><h2> 4 </h2>
+<img style="top:5px; left:-25px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:210px; left:830px; position: absolute;" ><h2> 5</h2>
+<img style="top:5px; left:-23px; position: absolute;" src="image/пуз_2.png" title="1" ></a>
+<a href='#'  style="z-index: 2; top:350px; left:850px; position: absolute;" ><h2> 6 </h2>
+<img style="top:5px; left:-25px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:440px; left:920px; position: absolute;" ><h2> Д </h2>
+<img style="top:5px; left:-18px; position: absolute;" src="image/пуз_1.png" title="2" ></a>
+<a href='#'  style="z-index: 2; top:520px; left:930px; position: absolute;" ><h2> 8 </h2>
+<img style="top:5px; left:-25px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:620px; left:950px; position: absolute;" ><h2> 9 </h2>
+<img style="top:5px; left:-25px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:720px; left:860px; position: absolute;" ><h2> 10 </h2>
+<img style="top:5px; left:-15px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:840px; left:820px; position: absolute;" ><h2> 11 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:995px; left:780px; position: absolute;" ><h2> 12 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1100px; left:810px; position: absolute;" ><h2> 13 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1220px; left:820px; position: absolute;" ><h2> 14 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1350px; left:870px; position: absolute;" ><h2> 15 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1450px; left:920px; position: absolute;" ><h2> Д </h2>
+<img style="top:5px; left:-20px; position: absolute;" src="image/пуз_1.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1540px; left:860px; position: absolute;" ><h2> 17 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_Ярк.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1640px; left:820px; position: absolute;" ><h2> 18 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1620px; left:580px; position: absolute;" ><h2> 19 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_Ярк.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1660px; left:350px; position: absolute;" ><h2> 20 </h2>
+<img style="top:0px; left:-13px; position: absolute;" src="image/пуз_Ярк.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1550px; left:310px; position: absolute;" ><h2> 21 </h2>
+<img style="top:5px; left:-13px; position: absolute;" src="image/пуз_Ярк.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1420px; left:300px; position: absolute;" ><h2> Д </h2>
+<img style="top:5px; left:-20px; position: absolute;" src="image/пуз_1.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1200px; left:320px; position: absolute;" ><h2> 23 </h2>
+<img style="top:5px; left:-20px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1130px; left:470px; position: absolute;" ><h2> 24 </h2>
+<img style="top:5px; left:-20px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1080px; left:560px; position: absolute;" ><h2> 25 </h2>
+<img style="top:5px; left:-20px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:960px; left:600px; position: absolute;" ><h2> 26 </h2>
+<img style="top:5px; left:-20px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:825px; left:610px; position: absolute;" ><h2> 27 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:540px; left:460px; position: absolute;" ><h2> 28 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:540px; left:360px; position: absolute;" ><h2> 29 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:680px; left:280px; position: absolute;" ><h2> 30 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:820px; left:280px; position: absolute;" ><h2> 31 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:960px; left:300px; position: absolute;" ><h2> 32 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1070px; left:290px; position: absolute;" ><h2> Д </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_1.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1200px; left:200px; position: absolute;" ><h2> 34 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1310px; left:180px; position: absolute;" ><h2> 35 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1480px; left:160px; position: absolute;" ><h2> 36 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1590px; left:140px; position: absolute;" ><h2> 37 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1660px; left:40px; position: absolute;" ><h2> 38 </h2>
+<img style="top:5px; left:-14px; position: absolute;" src="image/пуз_Ярк.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1570px; left:50px; position: absolute;" ><h2> 39 </h2>
+<img style="top:5px; left:-14px; position: absolute;" src="image/пуз_Ярк.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1400px; left:40px; position: absolute;" ><h2> 40 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_4.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1230px; left:100px; position: absolute;" ><h2> 41 </h2>
+<img style="top:5px; left:-14px; position: absolute;" src="image/пуз_Ярк.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:1090px; left:140px; position: absolute;" ><h2> 42 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:980px; left:160px; position: absolute;" ><h2> 43 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:880px; left:170px; position: absolute;" ><h2> 44 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:620px; left:160px; position: absolute;" ><h2> 45 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:500px; left:120px; position: absolute;" ><h2> 46 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:420px; left:60px; position: absolute;" ><h2> 47 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:260px; left:30px; position: absolute;" ><h2> 48 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:150px; left:80px; position: absolute;" ><h2> 49 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_2.png" title="14" ></a>
+<a href='#'  style="z-index: 2; top:210px; left:150px; position: absolute;" ><h2> 50 </h2>
+<img style="top:5px; left:-17px; position: absolute;" src="image/пуз_3.png" title="14" ></a>
+<!-- <script src = "unit.js"></script> 
+<font id="X1" style="z-index:10; top: 10px; left: 500px; position: fixed;">X : </font>
+<font id="Y1" style="z-index:10; top: 10px; left: 580px; position: fixed;">Y : </font>  -->
+<div id="block1" class="Bl2" ontouchmove="unit();return false;" onMouseDown="unitPc('block1');return false;" >
+<img id="agent1" style=" width:60px; height:60px; top:60px; left:-90px; position: absolute;" src="image/agent.png" title="agent1" >
+<img id="agent2" style=" width:60px; height:60px; top:40px; left:-40px; position: absolute;" src="image/agent.png" title="agent2" >
+<img id="agent3" src="image/30unit.gif" title="30unit">
+</div>
+<img id='pt2' style="z-index:3; width:810px; height:680px; top:20px; right:350px; position:absolute; position: fixed;cursor:pointer;" 
+src="image/Правила.png" title="Правила" onclick="Open('pt2');Open('pt3');" >
+<div style="z-index:2;" id='pt3'><script src = "Таблица2.js"></script></div>
+
+<!-- ** pt6 --><img id='pt6' style="z-index:2; width:60%; height:70%; top:20px; left:-40px; position:absolute; cursor:pointer;" 
+src="image/Инстр2.png" title="Инстр2" onclick="Open('pt5');Open('pt6');" >
+<!-- ** pt5 --><div id='pt5'><script src = "Таблица3.js"></script>
+<h3 style="z-index:3; top:375px; left:138px; color: #F14D5E; position:fixed;" > Выбери в свою команду 3 героя! </h3>
+</div>
+<div class="Bl3" ><img id="agent4" style=" width:60px; height:60px;" src="image/agent.png" title="agent4" ></div >
+<img id='pt4' style="width:200px; height:100px; top:10px; left:200px; position: absolute; cursor: pointer;" onclick="Open('pt4');"
+src="image/аквалангист.gif" title="аквалангист" >
+<img style="z-index:3; top:20px; left:580px;position: fixed; cursor: pointer;" src="image/конек2.gif" title="конек2" onclick="Open('pt2');Open('pt3');Open('pt4');">
+<!-- ** pt8 --><img id='pt8' style="z-index:1; width:60%; height:70%; top:20px; left:-40px; position:fixed; cursor:pointer;" 
+src="image/Инстр2.png" title="Инстр2" onclick="Open('pt7');Open('pt8');" >
+<img style="z-index:3; top:-8px; left:530px;position: fixed; cursor: pointer;" src="image/конек1.gif" title="конек1" onclick="Open('pt7');Open('pt8');">
+<!-- Вращающееся окно -->
+<div id='pt9' style="z-index:3; top:30px; left:150px; border-radius:50%; position:fixed;cursor:pointer;">
+<div class="flip-container" >
+<div class="flipper">
+<div class="front"> 
+<img class="prilipaly" id="duplicate" style="top:10px;left:-10px;" src="#" ></div>
+<div class="back"><audio id="audio6"></audio>
+<br><a href="#" onClick="document.getElementById('audio6').pause();Open('pt9');Open('pt7');Open('pt8')" ><b> Откл </b> </a><br>
+<a href="#" onClick="document.getElementById('audio6').play();" ><b> Повтор </b> </a><br>
+</div></div></div></div>
+<!-- Вращающееся окно -->
+<!-- ** pt7 Таблица1.js --><div id='pt7'><script src = "Таблица1.js"></script><h3 style="z-index:3; top:378px; left:138px; color: #0D835A; position:fixed;" > Давай знакомиться с командой! </h3></div>
+<script src = "unitPl.js"></script>
+<script src = "unit.js"></script>
+<!-- Подсказки gif на дисках со звездочками-->
+<div>
+<!-- Пуг5 -->
+<a style="z-index:1; position: relative;top:-210px; left:860px;cursor: pointer;" onClick="helpMp3(0);" >
+<audio id="audio5" src="sound/005.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #cccccc;z-index:-2;" src="image/Пуг5.gif" alt="Пуг5" ></a>
+<!-- Стрелка 8_6 -->
+<img style="z-index:1; position: relative;top:50px; left:690px;ursor: pointer;" src="image/8_6.gif" alt="8_6" >
+<!-- Пуг9 -->
+<a style="z-index:1; position: relative;top:200px; left:590px;cursor: pointer;" onClick="helpMp3(1);" >
+<audio id="audio5" src="sound/009.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #cccccc;z-index:-2;" src="image/Пуг9.gif" alt="Пуг9" ></a>
+<!-- Стрелка 12_10 -->
+<img style="z-index:1; position: relative;top:530px; left:380px;ursor: pointer;" src="image/12_10.gif" alt="12_10" >
+<!-- Пуг14 -->
+<a style="z-index:1; position: relative;top:750px; left:370px;cursor: pointer;" onClick="helpMp3(2);" >
+<audio id="audio5" src="sound/014.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #cccccc;z-index:-2;" src="image/Пуг14.gif" alt="Пуг14" ></a>
+<!-- Пуг18 -->
+<a style="z-index:1; position: relative;top:1180px; left:270px;cursor: pointer;" onClick="helpMp3(3);" >
+<audio id="audio5" src="sound/018.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #134E61;z-index:-2; background:#0D3745;" src="image/Пуг18.gif" alt="Пуг18" ></a>
+<!-- Стрелка 23_21 -->
+<img style="z-index:-2; position: relative;top:1125px; left:-400px;ursor: pointer;" src="image/23_21.gif" alt="23_21" >
+<!-- Пуг24 -->
+<a style="z-index:1; position: relative;top:730px; left:-340px;cursor: pointer;" onClick="helpMp3(4);">
+<audio id="audio5" src="sound/024.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #cccccc;z-index:-2;" src="image/Пуг24.gif" alt="Пуг24" ></a>
+<!-- Пуг30 -->
+<a style="z-index:1; position: relative;top:-120px; left:260px;cursor: pointer;" onClick="helpMp3(5);" >
+<audio id="audio5" src="sound/030.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #cccccc;background:#D5E6F0; z-index:-2;" src="image/Пуг30.gif" alt="Пуг30" ></a>
+<!-- Пуг37 -->
+<a style="z-index:1; position: relative;top:730px; left:70px;cursor: pointer;" onClick="helpMp3(6);" >
+<audio id="audio5" src="sound/037.mp3"></audio>
+<img style="border-radius:50%; z-index:-2;" src="image/Пуг37.gif" alt="Пуг37" ></a>
+<!-- Стрелка 41_39 -->
+<img style="z-index:-2; position: relative;top:670px; left:-150px;ursor: pointer;" src="image/41_39.gif" alt="23_21" >
+<!-- Стрелка 46_44 -->
+<img style="z-index:-2; position: relative;top:0px; left:-240px;ursor: pointer;" src="image/46_44.gif" alt="46_44" >
+<!-- Пуг48  -->
+<a style="z-index:1; position: relative;top:-590px; left:-370px;cursor: pointer;" onClick="helpMp3(7);" >
+<audio id="audio5" src="sound/048.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #cccccc;z-index:-2;" src="image/Пуг48.gif" alt="Пуг48" ></a>
+<!-- Пуг49 -->
+<a style="z-index:1; position: relative;top:-730px; left:-425px;cursor: pointer;" onClick="helpMp3(8);" >
+<audio id="audio5" src="sound/049.mp3"></audio>
+<img style="border-radius:50%; border: 2px groove #cccccc;z-index:-2;" src="image/Пуг49.gif" alt="Пуг49" ></a>
+<img style="z-index:1; position: relative; top: 120px; left:-320px; " src="image/Кальмар.gif" alt="Кальмар"> 
+</div>
+<!-- Кубик -->
+<a style="z-index:1; position: fixed; top: 30px; left: 400px;" onClick="Gslch();">
+<audio id='audio1' ></audio><!-- sound/ТряскаКубика.mp3  -->
+<audio id='audio2' ></audio><!-- sound/" + i1 + "м.mp3 -->
+<audio id='audio3' ></audio><!-- sound/" + i2 + "ж.mp3 -->
+<audio id='audio4' ></audio><!-- sound/Овация.mp3 -->
+<img style="border-radius:50%; border: 0px groove #cccccc; width:100px; height:100px;" src="image/Кубик.gif" alt="Кубик" >
+<img src="image/Пузырьки2.gif" title="Пузырьки">
+</a>
+<!-- Акула1 -->
+<img style="position: relative; width:150px; height:150px; top:-690px; padding-left:160px;"src="image/Акула1.gif" alt="Акула1" >
+<audio id="audio5" src="sound/МойРазмер.mp3"></audio>
+<p><img style="z-index:1;width:170px; height:170px; top: 440px; left:440px; position: relative;" src="image/Сундук.gif" 
+alt="Сундук" onClick="helpMp3(9);"></p>
+<!-- Стрелка 25_27 -->
+<img style="z-index:-2; position: relative;top:-420px; left:468px; ursor: pointer;" src="image/12_10.gif" alt="12_10" >
+<!-- П. Лодка -->
+<marquee style=" left:0px; width:1000px; position: absolute; top: 100px; " direction="right" >
+<img style="z-index:-1; border-radius:50%;" src="image/Пузырьки.gif" title="Пузырьки">
+<img style="z-index:-1;" src="image/Подводная_лодка.gif" title="Подводная_лодка">
+<img style="z-index:-1; border-radius:50%;" src="image/Пузырьки.gif" title="Пузырьки">
+</marquee>
+
+<script type='text/javascript'>
+// Ген слч 1
+//var course=1;
+calculate=0;
+var migration=0;
+// *-*-*-
+function Gslch(){
+i1=Math.floor(Math.random()*(6))+1;
+i2=Math.floor(Math.random()*(6))+1;
+audio1.src="sound/ТряскаКубика.mp3";
+audio1.play();
+audio2.src="sound/" + i1 + "м.mp3";
+document.getElementById('Agent1').innerHTML ='Ваши очки: ' + i1;
+setTimeout('audio2.play()',2000);
+audio3.src="sound/" + i2 + "ж.mp3";
+document.getElementById('Agent4').innerHTML ='Очки вашего разведчика: ' + i2;
+setTimeout('audio3.play()',4000);
+// ***
+calculate=calculate+i2;
+
+if (calculate==5) {if (Unit=='Unit1' || Unit =='Unit3' || Unit =='Unit6' || Unit =='Unit19' ) calculate=5;
+else calculate=5; audio4.src="sound/sound2/Проп1ход.mp3"; setTimeout('audio4.play()',7800); }
+if (calculate==8) {calculate=6; audio4.src="sound/sound2/8_6кл.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==9) {if (Unit=='Unit4' || Unit =='Unit17' || Unit =='Unit18' || Unit =='Unit20' ) {calculate=15;}
+else  calculate=9; audio4.src="sound/sound2/ждемПом.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==12) {calculate=10; audio4.src="sound/sound2/12_10кл.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==14) {if (Unit=='Unit7' || Unit =='Unit14' || Unit =='Unit21') calculate=14;
+else calculate=14; audio4.src="sound/sound2/Проп1ход.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==18) {if (Unit=='Unit22') calculate=18;
+else calculate=18; audio4.src="sound/sound2/Проп1ход.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==23) {calculate=21; audio4.src="sound/sound2/23_21кл.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==24) {if (Unit=='Unit2' || Unit =='Unit8' || Unit =='Unit10' || Unit =='Unit13' ) calculate=24; 
+else calculate=calculate-val1; audio4.src="sound/sound2/возврНазад.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==25) {calculate=27;audio4.src="sound/sound2/25_27кл.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==30) {if (Unit=='Unit11' || Unit =='Unit15' || Unit =='Unit16') calculate=30;
+ else calculate=30; audio4.src="sound/sound2/Проп1ход.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==37) {if (Unit=='Unit23' || Unit =='Unit24') {calculate=44;}
+else  calculate=37; audio4.src="sound/sound2/ждемПом.mp3"; setTimeout('audio4.play()',7800); }
+if (calculate==41) {calculate=39; audio4.src="sound/sound2/41_39кл.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==46) {calculate=44; audio4.src="sound/sound2/46_44кл.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==48) {if (Unit=='Unit5') calculate=48;
+else calculate=48; audio4.src="sound/sound2/Проп1ход.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==49) {if (Unit=='Unit9'|| Unit =='Unit12') calculate=49;
+else calculate=47; audio4.src="sound/sound2/49_47кл.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate==51) { calculate=51; audio4.src="sound/Овация.mp3"; setTimeout('audio4.play()',7800);}
+if (calculate>=52) { calculate=51; audio3.src="sound/Овация.mp3"; setTimeout('audio3.play()',7800);}
+migration=calculate;
+document.getElementById('ag4').innerHTML ='Позиция разведчика: '+calculate;
+
+/* Ход agent4 */
+
+var arr = document.getElementsByClassName('Bl3');
+if (migration==1) {X1=600; Y1=155;}
+if (migration==2) {X1=659; Y1=94;}
+if (migration==3) {X1=707; Y1=60;}
+if (migration==4) {X1=810; Y1=84;}
+if (migration==5) {X1=790; Y1=205;}
+if (migration==6) {X1=860; Y1=350;}
+if (migration==7) {X1=870; Y1=460;}
+if (migration==8) {X1=870; Y1=555;}
+if (migration==9) {X1=950; Y1=640;}
+if (migration==10) {X1=890; Y1=745;}
+if (migration==11) {X1=850; Y1=865;}
+if (migration==12) {X1=810; Y1=1030;}
+if (migration==13) {X1=830; Y1=1100;}
+if (migration==14) {X1=780; Y1=1245;}
+if (migration==15) {X1=915; Y1=1375;}
+if (migration==16) {X1=860; Y1=1455;}
+if (migration==17) {X1=820; Y1=1550;}
+if (migration==18) {X1=780; Y1=1630;}
+if (migration==19) {X1=600; Y1=1600;}
+if (migration==20) {X1=380; Y1=1645;}
+if (migration==21) {X1=350; Y1=1550;}
+if (migration==22) {X1=330; Y1=1420;}
+if (migration==23) {X1=330; Y1=1180;}
+if (migration==24) {X1=445; Y1=1200;}
+if (migration==25) {X1=580; Y1=1080;}
+if (migration==26) {X1=545; Y1=970;}
+if (migration==27) {X1=570; Y1=820;}
+if (migration==28) {X1=480; Y1=540;}
+if (migration==29) {X1=380; Y1=520;}
+if (migration==30) {X1=280; Y1=630;}
+if (migration==31) {X1=260; Y1=790;}
+if (migration==32) {X1=280; Y1=935;}
+if (migration==33) {X1=270; Y1=1040;}
+if (migration==34) {X1=220; Y1=1180;}
+if (migration==35) {X1=220; Y1=1340;}
+if (migration==36) {X1=190; Y1=1450;}
+if (migration==37) {X1=160; Y1=1560;}
+if (migration==38) {X1=90; Y1=1675;}
+if (migration==39) {X1=30; Y1=1535;}
+if (migration==40) {X1=80; Y1=1440;}
+if (migration==41) {X1=72; Y1=1270;}
+if (migration==42) {X1=115; Y1=1140;}
+if (migration==43) {X1=100; Y1=1000;}
+if (migration==44) {X1=120; Y1=905;}
+if (migration==45) {X1=130; Y1=665;}
+if (migration==46) {X1=150; Y1=530;}
+if (migration==47) {X1=95; Y1=430;}
+if (migration==48) {X1=75; Y1=260;}
+if (migration==49) {X1=50; Y1=195;}
+if (migration==50) {X1=190; Y1=215;}
+if (migration>=51) {X1=300; Y1=170;}
+for(var i=0; i<arr.length; i++){
+arr[i].style.left=X1 + 'px';
+arr[i].style.top=Y1 + 'px';
+
+}
+// ***
+}
+
+// help - Подсказки mp3 helpMp3
+var mas=["sound/005.mp3","sound/009.mp3","sound/014.mp3","sound/017.mp3","sound/024.mp3","sound/030.mp3","sound/037.mp3","sound/048.mp3","sound/049.mp3","sound/МойРазмер.mp3"];
+function helpMp3(index){
+    if(index>=mas.length){index=0}; // Если дошло до конца, начинаем с начала
+    audio5.src=mas[index];
+    audio5.play();
+}
+
+
+
+
+
+	</script> 
+
+
+
+
+
+
+
+</body>
+</html>
+	
